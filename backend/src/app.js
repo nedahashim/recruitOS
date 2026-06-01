@@ -6,7 +6,15 @@ import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import errorHandler from './middleware/errorHandler.js'
+
+// Routes
 import healthRoutes from './routes/health.routes.js'
+import authRoutes from './routes/auth.routes.js'
+import jobRoutes from './routes/jobs.routes.js'
+import candidateRoutes from './routes/candidates.routes.js'
+import reminderRoutes from './routes/reminders.routes.js'
+import interviewPrepRoutes from './routes/interviewPrep.routes.js'
+import aiRoutes from './routes/ai.routes.js'
 
 dotenv.config()
 connectDB()
@@ -23,7 +31,15 @@ app.use(rateLimit({
   message: { success: false, message: 'Too many requests, please slow down.' }
 }))
 
+// Mount routes
 app.use('/api/health', healthRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/jobs', jobRoutes)
+app.use('/api/candidates', candidateRoutes)
+app.use('/api/reminders', reminderRoutes)
+app.use('/api/interview-prep', interviewPrepRoutes)
+app.use('/api/ai', aiRoutes)
+
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
