@@ -1,20 +1,23 @@
 import { Router } from 'express'
 import protect from '../middleware/auth.middleware.js'
+import { generateJD, parseResumeAndCreateCandidate, generateInterviewPrepHandler } from '../controllers/ai.controller.js'
+import { upload } from '../config/cloudinary.js'
 
 const router = Router()
 
+// All AI routes require login
 router.use(protect)
 
-router.post('/generate-jd', (req, res) => {
-  res.json({ success: true, message: 'JD generator coming in session 3' })
-})
+// POST /api/ai/generate-jd
+// Body: { rawInput, jobTitle }
+router.post('/generate-jd', generateJD)
 
-router.post('/parse-resume', (req, res) => {
-  res.json({ success: true, message: 'Resume parser coming in session 3' })
-})
+// POST /api/ai/parse-resume
+// Body: multipart form with file + optional jobId
+router.post('/parse-resume', upload.single('resume'), parseResumeAndCreateCandidate)
 
-router.post('/interview-prep', (req, res) => {
-  res.json({ success: true, message: 'Interview prep coming in session 3' })
-})
+// POST /api/ai/interview-prep
+// Body: { candidateId, jobId }
+router.post('/interview-prep', generateInterviewPrepHandler)
 
 export default router

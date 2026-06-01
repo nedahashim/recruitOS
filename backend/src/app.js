@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import { configureCloudinary } from './config/cloudinary.js'
 import connectDB from './config/db.js'
 import errorHandler from './middleware/errorHandler.js'
 
@@ -17,6 +18,7 @@ import interviewPrepRoutes from './routes/interviewPrep.routes.js'
 import aiRoutes from './routes/ai.routes.js'
 
 dotenv.config()
+configureCloudinary()
 connectDB()
 
 const app = express()
